@@ -1,0 +1,7 @@
+# Base de datos (datos locales de cada usuario)
+tasks.db
+tasks.db-*
+
+# Python
+__pycache__/
+*.pyc
