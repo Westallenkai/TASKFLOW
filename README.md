@@ -39,6 +39,14 @@ docker build -t taskflow .
 docker run -d -p 5000:5000 taskflow    # abre http://127.0.0.1:5000
 ```
 
+O sin build, usando la imagen publicada en **GitHub Packages**:
+
+```bash
+docker pull ghcr.io/westallenkai/taskflow:latest
+docker tag  ghcr.io/westallenkai/taskflow:latest taskflow
+docker run  -d -p 5000:5000 taskflow
+```
+
 - Los datos (`tasks.db`) viven en el volumen `/data`: sobreviven a la recreación
   del contenedor y se gestionan solos (o fíjalos a una carpeta de la máquina:
   `docker run -p 5000:5000 -v <ruta>/taskflow-data:/data taskflow`).
