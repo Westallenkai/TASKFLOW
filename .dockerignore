@@ -1,0 +1,14 @@
+# VCS
+.git/
+.gitignore
+
+# Datos locales: nunca van en la imagen (el contenedor usa el volumen /data)
+tasks.db
+tasks.db-*
+
+# Python
+__pycache__/
+*.pyc
+
+# SO
+.DS_Store

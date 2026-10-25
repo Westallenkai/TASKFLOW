@@ -3,6 +3,7 @@
 Flask + SQLite, sin dependencias extra.
 Ejecutar: python app.py  ->  http://127.0.0.1:5000
 """
+import os
 import re
 import sqlite3
 from datetime import date, datetime
@@ -12,7 +13,9 @@ from urllib.parse import quote
 from flask import Flask, g, render_template, request
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "tasks.db"
+# La BD va por defecto junto a app.py; la variable TASKFLOW_DB la desplaza
+# (p. ej. a /data/tasks.db en Docker) para que los datos vivan en un volumen.
+DB_PATH = Path(os.environ.get("TASKFLOW_DB") or str(BASE_DIR / "tasks.db"))
 
 app = Flask(__name__)
 app.secret_key = "taskflow-dev-key-cambia-en-prod"

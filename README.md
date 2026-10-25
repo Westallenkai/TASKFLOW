@@ -10,8 +10,9 @@ Crear, completar, buscar, filtrar, reordenar y eliminar tareas — con **proyect
 [![Flask](https://img.shields.io/badge/Flask-3.x-092824?style=flat-square&logo=flask)](https://flask.palletsprojects.com/)
 [![Python](https://img.shields.io/badge/Python-3.9+-117DDD?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3.0-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Docker](https://img.shields.io/badge/Docker-taskflow-2496ED?style=flat-square&logo=docker&logoColor=white)](https://docs.docker.com/)
 
-**[🚀 Ejecutar](#-ejecutar)** · **[✨ Funcionalidades](#-funcionalidades)** · **[🖱 Uso diario](#-uso-diario)** · **[🧠 Cómo funciona](#-cómo-funciona)** · **[📁 Estructura](#-estructura)** · **[🔌 API](#-api-json)**
+**[🚀 Ejecutar](#-ejecutar)** · **[🐳 Docker](#-docker)** · **[✨ Funcionalidades](#-funcionalidades)** · **[🖱 Uso diario](#-uso-diario)** · **[🧠 Cómo funciona](#-cómo-funciona)** · **[📁 Estructura](#-estructura)** · **[🔌 API](#-api-json)**
 
 </div>
 
@@ -28,6 +29,22 @@ Abre [http://127.0.0.1:5000](http://127.0.0.1:5000).
 La base `tasks.db` se crea (o migra sola, si venía de la versión anterior).
 
 Verificar que todo funciona: `python _verify.py`
+
+### 🐳 Docker (imagen autocontenida)
+
+No hay que instalar nada en la máquina — la imagen trae Python + Flask:
+
+```bash
+docker build -t taskflow .
+docker run -d -p 5000:5000 taskflow    # abre http://127.0.0.1:5000
+```
+
+- Los datos (`tasks.db`) viven en el volumen `/data`: sobreviven a la recreación
+  del contenedor y se gestionan solos (o fíjalos a una carpeta de la máquina:
+  `docker run -p 5000:5000 -v <ruta>/taskflow-data:/data taskflow`).
+- La app corre con un usuario no-root, en un solo proceso y escuchando en
+  `0.0.0.0` (sin el reloader de debug).
+- Para parar: `docker stop <nombre-del-contenedor>`.
 
 ---
 
@@ -83,6 +100,7 @@ todos, da igual la zona horaria.
 ```
 .
 ├── app.py               # Flask + SQLite (rutas HTML y API)
+├── Dockerfile           # imagen autocontenida (no-root, volumen /data)
 ├── tasks.db             # base de datos (autogenerada/migrada)
 ├── requirements.txt
 ├── _verify.py           # suite de verificación (test client, sin dependencias)
